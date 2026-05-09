@@ -11,7 +11,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------+--------'  `--------+--------+--------+--------+--------+--------+--------|
       KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH,  KC_ESC,
   //|--------+--------+--------+--------+--------+--------+--------.  ,--------+--------+--------+--------+--------+--------+--------|
-                                          KC_LGUI, TL_LOWR,  KC_SPC,     KC_ENT, TL_UPPR, KC_RGUI
+                                          KC_LGUI,  KC_SPC,  LT(1,KC_LNG2),     LT(2,KC_LNG1),  KC_ENT, KC_RGUI
 
                                       //`--------------------------'  `--------------------------'
 
@@ -63,7 +63,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH,  KC_ESC,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_LGUI, TL_LOWR,  KC_SPC,     KC_ENT, TL_UPPR, KC_RALT
+                                          KC_LGUI,  KC_SPC,  LT(1,KC_LNG2),     LT(2,KC_LNG1),  KC_ENT, KC_RALT
                                       //`--------------------------'  `--------------------------'
 
   ),
@@ -105,6 +105,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   )
 };
 #endif
+
+layer_state_t layer_state_set_user(layer_state_t state) {
+    return update_tri_layer_state(state, 1, 2, 3);
+}
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (keycode == KC_ESC && record->event.pressed) {
