@@ -24,11 +24,13 @@ jobs:
         include:
           # キーボードを追加するときはここにエントリを追加する
           - name: corne_v4_vial
+            keyboard_dir: corne_v4
             firmware_repo: vial-kb/vial-qmk
             qmk_keyboard: crkbd/rev4_1/standard
             qmk_keymap: vial
 
           - name: corne_v4_via
+            keyboard_dir: corne_v4
             firmware_repo: qmk/qmk_firmware
             qmk_keyboard: crkbd/rev4_1/standard
             qmk_keymap: via
@@ -50,7 +52,7 @@ jobs:
         run: |
           dest="qmk_firmware/keyboards/${{ matrix.qmk_keyboard }}/keymaps/${{ matrix.qmk_keymap }}"
           mkdir -p "$dest"
-          cp -r "${{ matrix.name }}/keymaps/${{ matrix.qmk_keymap }}/." "$dest/"
+          cp -r "${{ matrix.keyboard_dir }}/keymaps/${{ matrix.qmk_keymap }}/." "$dest/"
 
       - name: Build
         run: make -C qmk_firmware ${{ matrix.qmk_keyboard }}:${{ matrix.qmk_keymap }}
