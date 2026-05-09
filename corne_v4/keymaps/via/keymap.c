@@ -106,9 +106,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 #endif
 
+#define LED_VAL  100        // ~39% brightness for LED longevity
+#define LAYER0   0,   0, LED_VAL  // white
+#define LAYER1 128, 255, LED_VAL  // cyan
+#define LAYER2 170, 255, LED_VAL  // blue
+#define LAYER3 213, 255, LED_VAL  // purple
+
 void keyboard_post_init_user(void) {
     rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_COLOR);
-    rgb_matrix_sethsv_noeeprom(HSV_WHITE);
+    rgb_matrix_sethsv_noeeprom(LAYER0);
 }
 
 layer_state_t layer_state_set_user(layer_state_t state) {
@@ -118,16 +124,16 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     // RGB: 現在のレイヤーに応じた色を設定
     switch (get_highest_layer(state)) {
         case 1:
-            rgb_matrix_sethsv_noeeprom(HSV_YELLOW);
+            rgb_matrix_sethsv_noeeprom(LAYER1);
             break;
         case 2:
-            rgb_matrix_sethsv_noeeprom(HSV_TEAL);
+            rgb_matrix_sethsv_noeeprom(LAYER2);
             break;
         case 3:
-            rgb_matrix_sethsv_noeeprom(HSV_RED);
+            rgb_matrix_sethsv_noeeprom(LAYER3);
             break;
         default:
-            rgb_matrix_sethsv_noeeprom(HSV_WHITE);
+            rgb_matrix_sethsv_noeeprom(LAYER0);
             break;
     }
     return state;
