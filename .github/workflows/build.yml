@@ -1,0 +1,63 @@
+name: Build Firmware
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '*/keymaps/**'
+      - '.github/workflows/build.yml'
+  pull_request:
+    paths:
+      - '*/keymaps/**'
+      - '.github/workflows/build.yml'
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build ${{ matrix.name }}
+    runs-on: ubuntu-latest
+    container: ghcr.io/qmk/qmk_cli
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # キーボードを追加するときはここにエントリを追加する
+          - name: corne_v4
+            firmware_repo: vial-kb/vial-qmk
+            qmk_keyboard: crkbd/rev4_1/standard
+            qmk_keymap: vial
+
+          - name: corne_v4
+            firmware_repo: qmk/qmk_firmware
+            qmk_keyboard: crkbd/rev4_1/standard
+            qmk_keymap: via
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Clone ${{ matrix.firmware_repo }}
+        run: |
+          git clone --depth=1 --recurse-submodules --shallow-submodules \
+            https://github.com/${{ matrix.firmware_repo }}.git qmk_firmware
+          git config --global --add safe.directory "$(pwd)/qmk_firmware"
+
+      - name: Install Python requirements
+        run: python3 -m pip install -r qmk_firmware/requirements.txt
+
+      - name: Copy keymap
+        run: |
+          dest="qmk_firmware/keyboards/${{ matrix.qmk_keyboard }}/keymaps/${{ matrix.qmk_keymap }}"
+          mkdir -p "$dest"
+          cp -r "${{ matrix.name }}/keymaps/${{ matrix.qmk_keymap }}/." "$dest/"
+
+      - name: Build
+        run: make -C qmk_firmware ${{ matrix.qmk_keyboard }}:${{ matrix.qmk_keymap }}
+
+      - name: Upload firmware
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.name }}-${{ matrix.qmk_keymap }}-firmware
+          path: qmk_firmware/.build/*.uf2
+          if-no-files-found: error

@@ -1,0 +1,6 @@
+qmk_firmware/
+.build/
+*.uf2
+*.hex
+*.bin
+.DS_Store
