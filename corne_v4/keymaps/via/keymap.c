@@ -106,16 +106,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 #endif
 
-layer_state_t layer_state_set_user(layer_state_t state) {
-    return update_tri_layer_state(state, 1, 2, 3);
-}
-
 void keyboard_post_init_user(void) {
     rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_COLOR);
     rgb_matrix_sethsv_noeeprom(HSV_WHITE);
 }
 
 layer_state_t layer_state_set_user(layer_state_t state) {
+    // tri-layer: 1+2 同時押しでレイヤー3を有効化
+    state = update_tri_layer_state(state, 1, 2, 3);
+
+    // RGB: 現在のレイヤーに応じた色を設定
     switch (get_highest_layer(state)) {
         case 1:
             rgb_matrix_sethsv_noeeprom(HSV_AZURE);
