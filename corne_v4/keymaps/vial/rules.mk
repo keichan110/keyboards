@@ -2,3 +2,4 @@ VIA_ENABLE         = yes
 VIAL_ENABLE        = yes
 VIALRGB_ENABLE     = yes
 ENCODER_MAP_ENABLE = yes
+SPLIT_WATCHDOG_ENABLE = yes
