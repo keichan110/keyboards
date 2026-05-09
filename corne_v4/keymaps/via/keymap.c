@@ -118,7 +118,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     // RGB: 現在のレイヤーに応じた色を設定
     switch (get_highest_layer(state)) {
         case 1:
-            rgb_matrix_sethsv_noeeprom(HSV_AZURE);
+            rgb_matrix_sethsv_noeeprom(HSV_YELLOW);
             break;
         case 2:
             rgb_matrix_sethsv_noeeprom(HSV_TEAL);
