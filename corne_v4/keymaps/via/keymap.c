@@ -110,6 +110,29 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     return update_tri_layer_state(state, 1, 2, 3);
 }
 
+void keyboard_post_init_user(void) {
+    rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_COLOR);
+    rgb_matrix_sethsv_noeeprom(HSV_WHITE);
+}
+
+layer_state_t layer_state_set_user(layer_state_t state) {
+    switch (get_highest_layer(state)) {
+        case 1:
+            rgb_matrix_sethsv_noeeprom(HSV_AZURE);
+            break;
+        case 2:
+            rgb_matrix_sethsv_noeeprom(HSV_TEAL);
+            break;
+        case 3:
+            rgb_matrix_sethsv_noeeprom(HSV_RED);
+            break;
+        default:
+            rgb_matrix_sethsv_noeeprom(HSV_WHITE);
+            break;
+    }
+    return state;
+}
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (keycode == KC_ESC && record->event.pressed) {
         tap_code(KC_ESC);
