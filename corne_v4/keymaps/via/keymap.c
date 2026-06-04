@@ -106,7 +106,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 #endif
 
-#define LED_VAL   40        // ~16% brightness for LED longevity
+#define LED_VAL   13        // ~5% brightness for LED longevity
 #define LAYER0   0,   0, LED_VAL  // white
 #define LAYER1 128, 255, LED_VAL  // cyan
 #define LAYER2 170, 255, LED_VAL  // blue
